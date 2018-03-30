@@ -76,38 +76,6 @@ def msssim(img1, img2):
     return (numpy.prod(mcs[0:level-1]**weight[0:level-1])*
                     (mssim[level-1]**weight[level-1]))
 
-def main():
-    """Compute the SSIM index on two input images specified on the cmd line."""
-    import pylab
-    argv = sys.argv
-    if len(argv) != 3:
-        print >>sys.stderr, 'usage: python -m sp.ssim image1.tif image2.tif'
-        sys.exit(2)
-
-    try:
-        from PIL import Image
-        img1 = numpy.asarray(Image.open(argv[1]))
-        img2 = numpy.asarray(Image.open(argv[2]))
-    except Exception, e:
-        e = 'Cannot load images' + str(e)
-        print >> sys.stderr, e
-
-    ssim_map = ssim(img1, img2)
-    ms_ssim = msssim(img1, img2)
-
-    pylab.figure()
-    pylab.subplot(131)
-    pylab.title('Image1')
-    pylab.imshow(img1, interpolation='nearest', cmap=pylab.gray())
-    pylab.subplot(132)
-    pylab.title('Image2')
-    pylab.imshow(img2, interpolation='nearest', cmap=pylab.gray())
-    pylab.subplot(133)
-    pylab.title('SSIM Map\n SSIM: %f\n MSSSIM: %f' % (ssim_map.mean(), ms_ssim))
-    pylab.imshow(ssim_map, interpolation='nearest', cmap=pylab.gray())
-    pylab.show()
-    
-    return 0
 
 if __name__ == '__main__':
     sys.exit(main())
